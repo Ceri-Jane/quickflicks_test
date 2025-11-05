@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome, {{ user.username }}!</h1>
-<p>This is your QuickFlicks profile.</p>
-<a href="{% url 'logout' %}">Log out</a>
+<h1>My Profile</h1>
+
+<p><strong>Username:</strong> {{ user.username }}</p>
+
+<hr>
+
+<h2>My Movie Shelf</h2>
+<p><a href="{% url 'my_shelf' %}">View My Shelf →</a></p>
+
+<hr>
+
+<p><a href="{% url 'home' %}">← Back to Search</a></p>
+
 {% endblock %}

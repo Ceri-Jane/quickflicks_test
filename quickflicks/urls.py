@@ -19,8 +19,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  # login, logout, password pages
-    path('accounts/', include('accounts.urls')),  # our profile page
-    path('', include('movies.urls')),  # home + search
-]
 
+    # Django's built-in authentication pages (login, logout, password reset, etc)
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    # Our custom account pages (signup, profile)
+    path('accounts/', include('accounts.urls')),
+
+    # Home + movie search
+    path('', include('movies.urls')),
+]

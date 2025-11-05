@@ -1,40 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>QuickFlicks</title>
-</head>
+{% extends "base.html" %}
 
-<body>
-    <h1>QuickFlicks 🎬</h1>
+{% block content %}
 
-    <form method="GET" action="">
-        <input type="text" name="query" placeholder="Search for a movie..." value="{{ query }}">
-        <button type="submit">Search</button>
-    </form>
+<h1>QuickFlicks 🎬</h1>
 
-{% if movies %}
-    <h2>Results:</h2>
-    <ul style="list-style: none; padding: 0;">
-    {% for movie in movies %}
-        <li style="margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start;">
-            
-            {% if movie.poster_path %}
-                <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }} poster">
-            {% endif %}
+<form method="GET" action="">
+    <input type="text" name="query" placeholder="Search for a movie..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
 
-            <div>
-                <h3>{{ movie.title }}</h3>
-                <p><strong>Released:</strong> {{ movie.release_date|default:"Unknown" }}</p>
-                <p>{{ movie.overview|default:"No description available." }}</p>
-            </div>
-
-        </li>
-    {% endfor %}
-    </ul>
-{% elif query %}
-    <p>No results found.</p>
+{% if not user.is_authenticated %}
+<div style="margin: 15px 0; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+    <strong>Want to save movies to your shelf?</strong><br>
+    <a href="{% url 'login' %}?next={{ request.get_full_path|urlencode }}">Log in</a>
+    or
+    <a href="{% url 'signup' %}?next={{ request.get_full_path|urlencode }}">Sign up</a>.
+</div>
 {% endif %}
 
-</body>
+{% if movies %}
+<h2>Results:</h2>
+<ul style="list-style: none; padding: 0;">
+    {% for movie in movies %}
+    <li style="margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start;">
+        
+        {% if movie.poster_path %}
+        <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" 
+        alt="{{ movie.title }} poster" width="200" height="300" style="object-fit: cover;">
+        {% else %}
+        <img src="https://via.placeholder.com/200x300/cccccc/000000?text=No+Poster" 
+        alt="No poster available" width="200" height="300" style="object-fit: cover; opacity:0.85;">
+        {% endif %}
 
-</html>
+        <div>
+            <h3>{{ movie.title }}</h3>
+            <p><strong>Released:</strong> {{ movie.release_date|default:"Unknown" }}</p>
+            <p>{{ movie.overview|default:"No description available." }}</p>
+
+            {% if user.is_authenticated %}
+
+                {% if movie.id|stringformat:"s" in user_movie_ids %}
+                    <p><strong>✅ Already in Your Shelf</strong></p>
+                {% else %}
+                    <form method="POST" action="{% url 'add_to_shelf' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                        <input type="hidden" name="title" value="{{ movie.title }}">
+                        <input type="hidden" name="poster_path" value="{{ movie.poster_path }}">
+                        <button type="submit">➕ Add to My Shelf</button>
+                    </form>
+                {% endif %}
+
+            {% else %}
+                <p><em><a href="{% url 'login' %}">Log in</a> to add this to your shelf.</em></p>
+            {% endif %}
+        </div>
+
+    </li>
+    {% endfor %}
+</ul>
+
+{% elif query %}
+<p>No results found.</p>
+{% endif %}
+
+{% endblock %}
