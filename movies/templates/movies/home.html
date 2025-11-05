@@ -3,8 +3,18 @@
 <head>
     <title>QuickFlicks</title>
 </head>
+
 <body>
-    <h1>Welcome to QuickFlicks 🎬</h1>
-    <p>Your personal movie collection starts here.</p>
+    <h1>QuickFlicks 🎬</h1>
+
+    <form method="GET" action="">
+        <input type="text" name="query" placeholder="Search for a movie...">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <p>You searched for: <strong>{{ query }}</strong></p>
+    {% endif %}
 </body>
+
 </html>
