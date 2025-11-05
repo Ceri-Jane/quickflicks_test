@@ -12,18 +12,29 @@
         <button type="submit">Search</button>
     </form>
 
-    {% if movies %}
-        <h2>Results:</h2>
-        <ul>
-        {% for movie in movies %}
-            <li>
-                <strong>{{ movie.title }}</strong> ({{ movie.release_date|default:"N/A" }})
-            </li>
-        {% endfor %}
-        </ul>
-    {% elif query %}
-        <p>No results found.</p>
-    {% endif %}
+{% if movies %}
+    <h2>Results:</h2>
+    <ul style="list-style: none; padding: 0;">
+    {% for movie in movies %}
+        <li style="margin-bottom: 20px; display: flex; gap: 15px; align-items: flex-start;">
+            
+            {% if movie.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+            {% endif %}
+
+            <div>
+                <h3>{{ movie.title }}</h3>
+                <p><strong>Released:</strong> {{ movie.release_date|default:"Unknown" }}</p>
+                <p>{{ movie.overview|default:"No description available." }}</p>
+            </div>
+
+        </li>
+    {% endfor %}
+    </ul>
+{% elif query %}
+    <p>No results found.</p>
+{% endif %}
+
 </body>
 
 </html>
