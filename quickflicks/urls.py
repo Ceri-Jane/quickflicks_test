@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -21,29 +22,29 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Django's built-in authentication pages (login, logout, password reset, etc)
+    # ✅ Built-in login / logout / password reset
     path('accounts/', include('django.contrib.auth.urls')),
 
-    # Our custom account pages (signup, profile)
+    # ✅ Custom auth (signup, profile, etc)
     path('accounts/', include('accounts.urls')),
 
-    # Home + movie search
-    path('', include('movies.urls')),
-    
+    # ✅ Password Reset Pages (styled)
     path("password_reset/", auth_views.PasswordResetView.as_view(
-    template_name="registration/password_reset.html"
-), name="password_reset"),
+        template_name="registration/password_reset.html"
+    ), name="password_reset"),
 
-path("password_reset_done/", auth_views.PasswordResetDoneView.as_view(
-    template_name="registration/password_reset_done.html"
-), name="password_reset_done"),
+    path("password_reset_done/", auth_views.PasswordResetDoneView.as_view(
+        template_name="registration/password_reset_done.html"
+    ), name="password_reset_done"),
 
-path("reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(
-    template_name="registration/password_reset_confirm.html"
-), name="password_reset_confirm"),
+    path("reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(
+        template_name="registration/password_reset_confirm.html"
+    ), name="password_reset_confirm"),
 
-path("reset_done/", auth_views.PasswordResetCompleteView.as_view(
-    template_name="registration/password_reset_complete.html"
-), name="password_reset_complete"),
+    path("reset/done/", auth_views.PasswordResetCompleteView.as_view(
+        template_name="registration/password_reset_complete.html"
+    ), name="password_reset_complete"),
 
+    # ✅ Your movie pages (home, shelf, etc)
+    path('', include('movies.urls')),
 ]

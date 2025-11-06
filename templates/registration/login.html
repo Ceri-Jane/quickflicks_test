@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
 <div class="auth-wrapper">
     <div class="auth-card">
         <h2 class="auth-title">Welcome Back 🎬</h2>
@@ -18,7 +20,7 @@
                 {{ form.password.label_tag }}
                 <div class="password-row">
                     {{ form.password }}
-                    <svg class="password-toggle" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <svg class="password-toggle" onclick="togglePassword('id_password')" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
                         <circle cx="12" cy="12" r="3"/>
                     </svg>
@@ -27,9 +29,15 @@
 
             <button type="submit" class="btn btn-primary w-100 mt-2">Log In</button>
 
-            <p class="auth-alt-text">
+            <!-- ✅ Forgot Password link added back -->
+            <div class="text-center mt-2">
+                <a href="{% url 'password_reset' %}" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <p class="auth-alt-text mt-3">
                 Don’t have an account? <a href="{% url 'signup' %}">Sign up</a>
             </p>
+
         </form>
     </div>
 </div>
