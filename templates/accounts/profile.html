@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display:flex; justify-content:center; align-items:flex-start; padding-top:60px; min-height:70vh;">
+    <div style="background:#1a1a1a; padding:40px; border-radius:12px; width:100%; max-width:450px; text-align:center; box-shadow:0 0 18px rgba(255,255,255,0.05); border:1px solid #333;">
+
+        <!-- Greeting -->
+        <h2 style="margin-bottom:8px;">Hello, {{ user.username }} 👋</h2>
+
+        <!-- Email displayed -->
+        <p style="opacity:0.85; margin-bottom:30px;">{{ user.email }}</p>
+
+        <!-- Your Shelf -->
+        <a href="{% url 'my_shelf' %}" class="btn btn-primary w-100" style="margin-bottom:35px; font-weight:600;">
+            🎬 View My Shelf
+        </a>
+
+        <!-- SEARCH BUTTON -->
+        <a href="{% url 'home' %}" class="btn btn-outline-light w-100" style="margin-bottom:35px; font-weight:600;">
+            🔍 Search for Films
+        </a>
+
+        <!-- Divider -->
+        <hr style="border-color:#333; margin:25px 0;">
+
+        <!-- Account Settings -->
+        <h4 style="margin-bottom:15px;">Account Settings</h4>
+
+        <a href="{% url 'change_username' %}" class="btn btn-outline-secondary w-100" style="margin-bottom:12px;">
+            Change Username ✏️
+        </a>
+
+        <a href="{% url 'change_email' %}" class="btn btn-outline-info w-100" style="margin-bottom:12px;">
+            Change Email 📧
+        </a>
+
+        <a href="{% url 'password_change' %}" class="btn btn-outline-warning w-100" style="margin-bottom:30px;">
+            Change Password 🔒
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

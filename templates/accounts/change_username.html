@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <h2 class="auth-title">Change Username ✏️</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+
+            <button class="btn btn-success w-100" type="submit">Save New Username</button>
+        </form>
+
+        <p class="auth-alt-text mt-3">
+            <a href="{% url 'profile' %}">Back to Profile</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,205 @@
+/* =========================================
+   SHELF ROW + SCROLL LAYOUT
+========================================= */
+
+.shelf-wrapper {
+    position: relative;
+}
+
+.shelf-row {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    padding-bottom: 14px;
+    scroll-behavior: smooth;
+}
+
+.shelf-row::-webkit-scrollbar {
+    height: 8px;
+}
+.shelf-row::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+/* =========================================
+   SHELF CARD (MATCHING HTML)
+========================================= */
+
+.shelf-card {
+    width: 160px;
+    flex-shrink: 0;
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    border: 1px solid #333;
+}
+
+/* Poster */
+.shelf-card img {
+    width: 140px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+/* Title */
+.shelf-title {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.2;
+    min-height: 38px;
+    margin-bottom: 4px;
+    word-wrap: break-word;
+}
+
+/* Year */
+.shelf-year {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-bottom: 6px;
+}
+
+/* Description Scroll Box */
+.shelf-description {
+    font-size: 12px;
+    line-height: 1.25;
+    height: 48px;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.shelf-description::-webkit-scrollbar {
+    width: 4px;
+}
+.shelf-description::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+/* Buttons stay aligned at bottom */
+.shelf-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+/* =========================================
+   SCROLL ARROWS
+========================================= */
+
+.scroll-left,
+.scroll-right {
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    display: none;
+    cursor: pointer;
+    z-index: 5;
+}
+
+@media (pointer: fine) {
+    .scroll-left,
+    .scroll-right {
+        display: block;
+    }
+}
+
+.scroll-left {
+    left: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+}
+
+.scroll-right {
+    right: 0;
+    background: linear-gradient(to left, rgba(0,0,0,0.4), transparent);
+}
+
+.scroll-left::after,
+.scroll-right::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.scroll-left::after {
+    left: 14px;
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.scroll-right::after {
+    right: 14px;
+    border-top: 4px solid white;
+    border-right: 4px solid white;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.scroll-left:hover::after,
+.scroll-right:hover::after {
+    opacity: 1;
+}
+
+/* =========================================
+   ACCORDION
+========================================= */
+
+.accordion-item {
+    margin-top: 20px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    padding: 12px;
+    text-align: left;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+}
+
+.accordion-header::after {
+    content: "▼";
+    position: absolute;
+    right: 14px;
+    transition: transform 0.3s;
+}
+
+.accordion-item.open .accordion-header::after {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    background: #2c2c2c;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    padding: 0 12px;
+}
+
+.accordion-item.open .accordion-content {
+    max-height: 900px;
+    padding: 12px;
+}

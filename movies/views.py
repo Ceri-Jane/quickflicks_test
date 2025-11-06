@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 import requests
 
 from .models import Movie
@@ -16,7 +17,6 @@ def home(request):
         response = requests.get(url).json()
         movies = response.get('results', [])
 
-    # ✅ NEW LINE: Get IDs of movies already on the user's shelf
     user_movie_ids = []
     if request.user.is_authenticated:
         user_movie_ids = list(
@@ -26,7 +26,7 @@ def home(request):
     return render(request, 'movies/home.html', {
         'query': query,
         'movies': movies,
-        'user_movie_ids': user_movie_ids,   # ✅ This sends it to the template
+        'user_movie_ids': user_movie_ids,
     })
 
 
@@ -37,7 +37,7 @@ def add_to_shelf(request):
         title = request.POST.get("title")
         poster_path = request.POST.get("poster_path")
 
-        movie, created = Movie.objects.get_or_create(
+        Movie.objects.get_or_create(
             user=request.user,
             tmdb_id=tmdb_id,
             defaults={
@@ -48,7 +48,6 @@ def add_to_shelf(request):
         )
 
     return redirect(request.META.get("HTTP_REFERER", "home"))
-
 
 
 @login_required
@@ -66,15 +65,16 @@ def my_shelf(request):
 
 @login_required
 def remove_movie(request, movie_id):
+    section = request.POST.get("section", "")
     movie = Movie.objects.get(id=movie_id, user=request.user)
     movie.delete()
-    return redirect("my_shelf")
-
+    return redirect(reverse("my_shelf") + f"#{section}")
 
 
 @login_required
 def change_status(request, movie_id, new_status):
+    section = request.POST.get("section", "")
     movie = Movie.objects.get(id=movie_id, user=request.user)
     movie.status = new_status
     movie.save()
-    return redirect("my_shelf")
+    return redirect(reverse("my_shelf") + f"#{section}")

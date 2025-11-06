@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+<div class="hero-box">
+    <h1 class="hero-title">QuickFlicks 🎬</h1>
+    <p class="hero-subtitle">Search movies. Save them. Track what you watch.</p>
+
+    {% if not user.is_authenticated %}
+    <div class="hero-auth">
+        <a href="{% url 'login' %}" class="btn-outline">Login</a>
+        <a href="{% url 'signup' %}" class="btn-solid">Sign Up</a>
+    </div>
+    {% endif %}
+</div>
+
+<form method="GET" action="{% url 'home' %}" class="search-form">
+    <input type="text" name="query" placeholder="Search for a movie..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if movies %}
+<h2 class="results-heading">Results</h2>
+
+<div class="results-grid">
+
+    {% for movie in movies %}
+    <div class="movie-card">
+
+        <div class="poster-area">
+            <img src="https://image.tmdb.org/t/p/w300{{ movie.poster_path|default:'' }}"
+                 onerror="this.src='https://via.placeholder.com/200x300/333333/ffffff?text=No+Image';">
+        </div>
+
+        <div class="movie-title">{{ movie.title }}</div>
+        <div class="movie-date">{{ movie.release_date|default:"Unknown" }}</div>
+
+        <div class="movie-desc">
+            {{ movie.overview|default:"No description available." }}
+        </div>
+
+        <div class="card-actions">
+
+            {% if user.is_authenticated %}
+
+                {% if movie.id|stringformat:"s" in user_movie_ids %}
+                    <p class="in-shelf">✅ Already in Your Shelf</p>
+
+                {% else %}
+                <form method="POST" action="{% url 'add_to_shelf' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                    <input type="hidden" name="title" value="{{ movie.title }}">
+                    <input type="hidden" name="poster_path" value="{{ movie.poster_path }}">
+                    <button class="btn-add">➕ Add to My Shelf</button>
+                </form>
+                {% endif %}
+
+            {% else %}
+                <p class="login-msg">
+                    <a href="{% url 'login' %}">Log in</a> to add to your shelf.
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% elif query %}
+<p class="no-results">No results found.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,6 +1,47 @@
-<h1>Login</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log in</button>
-</form>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2 class="auth-title">Welcome Back 🎬</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form.password.label_tag }}
+                <div class="password-row">
+                    {{ form.password }}
+                    <svg class="password-toggle" onclick="togglePassword('id_password')" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-2">Log In</button>
+
+            <div class="text-center">
+                <a href="{% url 'password_reset' %}" class="forgot-link">Forgot password?</a>
+            </div>
+        </form>
+
+        <p class="auth-alt-text mt-3">
+            Don’t have an account? <a href="{% url 'signup' %}">Sign up</a>
+        </p>
+    </div>
+</div>
+
+<script>
+function togglePassword(id) {
+    const field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+}
+</script>
+
+{% endblock %}
