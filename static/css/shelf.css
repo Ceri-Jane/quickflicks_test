@@ -10,7 +10,7 @@
     display: flex;
     gap: 22px;
     overflow-x: auto;
-    padding-bottom: 14px;
+    padding: 0 60px 14px;
     scroll-behavior: smooth;
 }
 
@@ -38,6 +38,7 @@
     text-align: center;
     box-shadow: 0 0 12px rgba(0,0,0,0.4);
     border: 1px solid #333;
+    justify-content: space-between;
 }
 
 /* Poster */
@@ -49,38 +50,26 @@
     margin-bottom: 6px;
 }
 
-/* Title */
+/* Title (fixed height + scrollable) */
 .shelf-title {
     font-size: 14px;
     font-weight: bold;
     line-height: 1.2;
-    min-height: 38px;
-    margin-bottom: 4px;
     word-wrap: break-word;
-}
-
-/* Year */
-.shelf-year {
-    font-size: 12px;
-    opacity: 0.75;
-    margin-bottom: 6px;
-}
-
-/* Description Scroll Box */
-.shelf-description {
-    font-size: 12px;
-    line-height: 1.25;
-    height: 48px;
-    overflow-y: auto;
+    overflow-wrap: anywhere;
+    text-align: center;
+    width: 140px; /* consistent width */
+    height: 60px; /* fixed height for alignment */
+    overflow-y: auto; /* scroll only if text too long */
     padding-right: 4px;
-    margin-bottom: 10px;
-    opacity: 0.9;
+    margin: 0 auto 10px;
 }
 
-.shelf-description::-webkit-scrollbar {
+/* Scrollbar styling for long titles */
+.shelf-title::-webkit-scrollbar {
     width: 4px;
 }
-.shelf-description::-webkit-scrollbar-thumb {
+.shelf-title::-webkit-scrollbar-thumb {
     background: #555;
     border-radius: 4px;
 }
@@ -102,7 +91,7 @@
 .scroll-right {
     position: absolute;
     top: 0;
-    width: 60px;
+    width: 45px;
     height: 100%;
     display: none;
     cursor: pointer;
@@ -139,14 +128,14 @@
 }
 
 .scroll-left::after {
-    left: 14px;
+    left: 10px;
     border-top: 4px solid white;
     border-left: 4px solid white;
     transform: translateY(-50%) rotate(-45deg);
 }
 
 .scroll-right::after {
-    right: 14px;
+    right: 10px;
     border-top: 4px solid white;
     border-right: 4px solid white;
     transform: translateY(-50%) rotate(45deg);
@@ -202,4 +191,53 @@
 .accordion-item.open .accordion-content {
     max-height: 900px;
     padding: 12px;
+}
+
+/* =========================================
+   WATCHED SHELF (FIXED ALIGNMENT)
+========================================= */
+
+.watched-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 410px;
+    position: relative;
+}
+
+/* Poster */
+.watched-card img {
+    margin-bottom: 6px;
+}
+
+/* Fixed-size scrollable title */
+.watched-card .shelf-title {
+    width: 140px;
+    height: 60px; /* fixed height to align all cards */
+    overflow-y: auto;
+    text-align: center;
+    padding-right: 4px;
+    margin: 0 auto 8px;
+}
+
+/* 👍👎 buttons fixed above the yellow button */
+.watched-card .rating-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+    margin-bottom: 6px;
+}
+
+/* Shelf buttons stay stacked below */
+.watched-card .shelf-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.watched-card .btn {
+    font-size: 14px;
+    padding: 4px 10px;
 }

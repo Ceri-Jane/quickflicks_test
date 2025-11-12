@@ -14,11 +14,9 @@
     <div class="accordion-item open">
         <button class="accordion-header">📦 To Put Away</button>
         <div class="accordion-content">
-
             <div class="shelf-wrapper">
                 <div class="scroll-left"></div>
                 <div class="shelf-row">
-
                     {% for movie in to_put_away %}
                     <div class="shelf-card">
                         <img 
@@ -51,11 +49,9 @@
                         Add movies from search!
                     </div>
                     {% endfor %}
-
                 </div>
                 <div class="scroll-right"></div>
             </div>
-
         </div>
     </div>
 
@@ -63,11 +59,9 @@
     <div class="accordion-item open">
         <button class="accordion-header">🎬 To Watch</button>
         <div class="accordion-content">
-
             <div class="shelf-wrapper">
                 <div class="scroll-left"></div>
                 <div class="shelf-row">
-
                     {% for movie in to_watch %}
                     <div class="shelf-card">
                         <img 
@@ -98,7 +92,6 @@
                 </div>
                 <div class="scroll-right"></div>
             </div>
-
         </div>
     </div>
 
@@ -106,18 +99,29 @@
     <div class="accordion-item">
         <button class="accordion-header">🍿 Watched</button>
         <div class="accordion-content">
-
-            <div class="shelf-wrapper">
+            <div class="shelf-wrapper watched-wrapper">
                 <div class="scroll-left"></div>
-                <div class="shelf-row">
-
+                <div class="shelf-row watched-row">
                     {% for movie in watched %}
-                    <div class="shelf-card">
+                    <div class="shelf-card watched-card">
                         <img 
                             src="{{ movie.poster_url|default:'' }}" 
                             onerror="this.src='{% static 'images/movie-poster-unavailable.jpg' %}'" 
                             alt="{{ movie.title }}">
                         <div class="shelf-title">{{ movie.title }}</div>
+
+                        <!-- 👍 👎 Like / Dislike Buttons -->
+                        <div class="rating-actions">
+                            <form action="{% url 'thumb_up' movie.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-sm {% if movie.rating == 1 %}btn-success{% else %}btn-outline-success{% endif %}">👍</button>
+                            </form>
+
+                            <form action="{% url 'thumb_down' movie.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-sm {% if movie.rating == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}">👎</button>
+                            </form>
+                        </div>
 
                         <div class="shelf-actions">
                             <form action="{% url 'change_status' movie.id 'TO_WATCH' %}" method="post">
@@ -138,11 +142,9 @@
                         Go enjoy something!
                     </div>
                     {% endfor %}
-
                 </div>
                 <div class="scroll-right"></div>
             </div>
-
         </div>
     </div>
 

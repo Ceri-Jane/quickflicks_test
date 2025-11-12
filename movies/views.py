@@ -78,3 +78,22 @@ def change_status(request, movie_id, new_status):
     movie.status = new_status
     movie.save()
     return redirect(reverse("my_shelf") + f"#{section}")
+
+
+# ✅ Thumbs up / down system
+@login_required
+def thumb_up(request, movie_id):
+    """Mark a movie as liked 👍"""
+    movie = Movie.objects.get(id=movie_id, user=request.user)
+    movie.rating = 1
+    movie.save()
+    return redirect(request.META.get("HTTP_REFERER", "my_shelf"))
+
+
+@login_required
+def thumb_down(request, movie_id):
+    """Mark a movie as disliked 👎"""
+    movie = Movie.objects.get(id=movie_id, user=request.user)
+    movie.rating = -1
+    movie.save()
+    return redirect(request.META.get("HTTP_REFERER", "my_shelf"))

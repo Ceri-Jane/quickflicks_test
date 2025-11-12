@@ -13,11 +13,15 @@ class Movie(models.Model):
     title = models.CharField(max_length=255)
     poster_url = models.URLField(max_length=500, blank=True, null=True)
     
-    # ✅ NEW FIELDS
+    # Extra info fields
     description = models.TextField(blank=True, null=True)
     release_date = models.CharField(max_length=20, blank=True, null=True)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="NEW")
+
+    # ✅ New field for thumbs-up / thumbs-down rating
+    # 1 = liked 👍 , -1 = disliked 👎 , 0 = no rating yet
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.title} ({self.get_status_display()})"

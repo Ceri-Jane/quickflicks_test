@@ -82,6 +82,14 @@ a:hover { color: #cfffff; }
 }
 .search-form button:hover { background: #299bff; }
 
+/* ✅ Spacer Divider (like profile page) */
+.page-divider {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
 /* Results */
 .results-heading {
     text-align: center;
@@ -124,15 +132,54 @@ a:hover { color: #cfffff; }
 }
 
 /* Text Layout */
-.movie-title { margin-top: 10px; font-size: 1.05rem; font-weight: bold; }
-.movie-date { opacity: 0.8; font-size: 0.8rem; margin-top: 2px; }
+.movie-title {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    text-align: center;
+    max-height: 3.6em; /* roughly 3 lines */
+    overflow-y: auto;
+    word-wrap: break-word;
+}
 
+.movie-title::-webkit-scrollbar {
+    width: 4px;
+}
+.movie-title::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+/* ✅ Consistent spacing for rating/date area */
+.movie-meta {
+    min-height: 40px; /* reserves space even if empty */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+.movie-rating {
+    color: #ffcf33;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.movie-date {
+    opacity: 0.8;
+    font-size: 0.8rem;
+}
+
+/* Scroll box for long descriptions */
 .movie-desc {
     margin-top: 8px;
     font-size: 0.78rem;
     flex-grow: 1;
     overflow-y: auto;
     padding-right: 3px;
+    max-height: 130px; /* limits card height */
 }
 .movie-desc::-webkit-scrollbar { width: 6px; }
 .movie-desc::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
