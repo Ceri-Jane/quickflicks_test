@@ -38,6 +38,17 @@
             Change Password 🔒
         </a>
 
+        <!-- Divider -->
+        <hr style="border-color:#333; margin:25px 0;">
+
+        <!-- Logout -->
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100" style="font-weight:600;">
+                🚪 Logout
+            </button>
+        </form>
+
     </div>
 </div>
 

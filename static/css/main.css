@@ -1,8 +1,15 @@
+/* Google fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Limelight&family=Oswald:wght@200..700&display=swap');
+
 /* Global Theme */
 body {
-    background: #111;
-    color: #e6e6e6;
-    font-family: Arial, sans-serif;
+    background-color: #2f3c4b;
+    color: #ffffff;
+    font-family: Oswald, sans-serif;
+}
+
+.navbar-brand {
+    font-family: Limelight, sans-serif;
 }
 
 a { text-decoration: none; color: #9fe; }
@@ -13,11 +20,19 @@ a:hover { color: #cfffff; }
     text-align: center;
     margin: 45px 0;
 }
-.hero-title {
-    font-size: 3rem;
-    font-weight: bold;
+
+/* ✅ Responsive Logo Styling */
+.hero-logo {
+    display: block;
+    margin: 15px auto 20px;
+    width: 80%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));
 }
+
 .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.8rem);
     opacity: 0.85;
     margin-top: 5px;
 }
@@ -27,6 +42,7 @@ a:hover { color: #cfffff; }
     justify-content: center;
     gap: 12px;
 }
+
 .btn-outline, .btn-solid {
     padding: 8px 14px;
     border-radius: 6px;
