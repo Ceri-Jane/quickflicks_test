@@ -4,7 +4,14 @@ from django.contrib.auth.models import User
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            "required": "required",
+            "type": "email",
+            "placeholder": "Enter your email"
+        })
+    )
 
     class Meta:
         model = User
@@ -19,7 +26,15 @@ class SignUpForm(UserCreationForm):
 
 
 class ChangeEmailForm(forms.ModelForm):
-    email = forms.EmailField(required=True, label="New Email")
+    email = forms.EmailField(
+        required=True,
+        label="New Email",
+        widget=forms.EmailInput(attrs={
+            "required": "required",
+            "type": "email",
+            "placeholder": "Enter a valid email address"
+        })
+    )
 
     class Meta:
         model = User
@@ -27,7 +42,19 @@ class ChangeEmailForm(forms.ModelForm):
 
 
 class ChangeUsernameForm(forms.ModelForm):
-    username = forms.CharField(required=True, label="New Username")
+    username = forms.CharField(
+        required=True,
+        label="New Username",
+        widget=forms.TextInput(attrs={
+            "type": "text",
+            "required": "required",
+            "minlength": "3",
+            "maxlength": "20",
+            "pattern": "^[A-Za-z0-9_]{3,20}$",
+            "title": "Username must be 3–20 characters and contain only letters, numbers, or underscores.",
+            "placeholder": "Choose a username"
+        })
+    )
 
     class Meta:
         model = User

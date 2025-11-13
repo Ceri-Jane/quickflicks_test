@@ -9,32 +9,69 @@
         <form method="POST">
             {% csrf_token %}
 
+            <!-- Username -->
             <div class="form-group mb-3">
-                {{ form.username.label_tag }}
-                {{ form.username }}
+                <label for="id_username">Username</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    id="id_username" 
+                    class="form-control"
+                    required
+                    minlength="3"
+                    placeholder="Choose a username"
+                    value="{{ form.username.value|default:'' }}"
+                >
             </div>
 
+            <!-- Email -->
             <div class="form-group mb-3">
-                {{ form.email.label_tag }}
-                {{ form.email }}
+                <label for="id_email">Email</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="id_email" 
+                    class="form-control"
+                    required
+                    placeholder="your@email.com"
+                    value="{{ form.email.value|default:'' }}"
+                >
             </div>
 
+            <!-- Password 1 -->
             <div class="form-group mb-3">
-                {{ form.password1.label_tag }}
+                <label for="id_password1">Password</label>
                 <div class="password-row">
-                    {{ form.password1 }}
-                    <svg class="password-toggle" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <input 
+                        type="password" 
+                        name="password1" 
+                        id="id_password1" 
+                        class="form-control"
+                        required
+                        minlength="8"
+                        placeholder="Enter password"
+                    >
+                    <svg class="password-toggle" onclick="togglePassword('id_password1')" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
                         <circle cx="12" cy="12" r="3"/>
                     </svg>
                 </div>
             </div>
 
+            <!-- Password 2 -->
             <div class="form-group mb-3">
-                {{ form.password2.label_tag }}
+                <label for="id_password2">Confirm Password</label>
                 <div class="password-row">
-                    {{ form.password2 }}
-                    <svg class="password-toggle" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <input 
+                        type="password" 
+                        name="password2" 
+                        id="id_password2" 
+                        class="form-control"
+                        required
+                        minlength="8"
+                        placeholder="Repeat password"
+                    >
+                    <svg class="password-toggle" onclick="togglePassword('id_password2')" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                         <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/>
                         <circle cx="12" cy="12" r="3"/>
                     </svg>
@@ -43,7 +80,7 @@
 
             <button type="submit" class="btn btn-success w-100">Sign Up</button>
 
-            <p class="auth-alt-text">
+            <p class="auth-alt-text mt-2">
                 Already have an account? <a href="{% url 'login' %}">Log in</a>
             </p>
         </form>

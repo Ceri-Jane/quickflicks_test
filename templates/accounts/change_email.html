@@ -8,8 +8,9 @@
 
         <form method="POST">
             {% csrf_token %}
+
             <div class="form-group mb-3">
-                {{ form.email.label_tag }}
+                <label for="{{ form.email.id_for_label }}">New Email:</label>
                 {{ form.email }}
             </div>
 

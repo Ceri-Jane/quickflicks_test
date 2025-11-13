@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
 from .forms import SignUpForm, ChangeEmailForm, ChangeUsernameForm
 
 
@@ -18,6 +19,7 @@ def signup(request):
             return redirect("login")
     else:
         form = SignUpForm()
+
     return render(request, "registration/signup.html", {"form": form})
 
 
