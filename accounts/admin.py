@@ -13,20 +13,22 @@ from .models import GroupProfile
 # USER ADMIN CUSTOMISATIONS
 # -----------------------------
 
-# Show list of groups in the user list
 def group_list(obj):
+    """Show comma-separated group names."""
     return ", ".join([g.name for g in obj.groups.all()]) or "—"
 group_list.short_description = "Groups"
 
 
-# Count total movies + clickable link to filtered list
 def total_movies(obj):
+    """Clickable count → takes admin to filtered Movie list."""
     count = Movie.objects.filter(user=obj).count()
+
     url = (
         reverse("admin:movies_movie_changelist")
         + "?"
         + urlencode({"user__id__exact": obj.id})
     )
+
     return format_html('<a href="{}">{}</a>', url, count)
 total_movies.short_description = "Movies"
 
@@ -47,23 +49,19 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         ("Personal info", {"fields": ("email",)}),
-        (
-            "Permissions",
-            {
-                "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
-                    "groups",
-                    "user_permissions",
-                )
-            },
-        ),
+        ("Permissions", {
+            "fields": (
+                "is_active",
+                "is_staff",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            )
+        }),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
 
 
-# Replace default User admin
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
@@ -72,8 +70,8 @@ admin.site.register(User, CustomUserAdmin)
 # GROUP ADMIN CUSTOMISATIONS
 # -----------------------------
 
-# Member count + clickable link to Users filtered by group
 def member_count(obj):
+    """Clickable number showing how many users in the group."""
     from django.contrib.auth import get_user_model
     User = get_user_model()
 
@@ -84,38 +82,26 @@ def member_count(obj):
         + "?"
         + urlencode({"groups__id__exact": obj.id})
     )
-
     return format_html('<a href="{}">{}</a>', url, count)
 member_count.short_description = "Members"
 
 
-# NEW: Total permissions for each group
 def total_permissions(obj):
     return obj.permissions.count()
 total_permissions.short_description = "Permissions"
 
 
-# Inline for editing the GroupProfile description
-class GroupProfileInline(admin.StackedInline):
-    model = GroupProfile
-    can_delete = False
-    verbose_name = "Description"
-    fk_name = "group"
-    fields = ("description",)
-
-
-# Custom admin for Groups
 class CustomGroupAdmin(admin.ModelAdmin):
+    """
+    Clean Group admin — shows description but does NOT create/modify profiles.
+    Creation is handled by signals to avoid duplicate GroupProfile rows.
+    """
     list_display = ("name", member_count, total_permissions, "get_description")
-    inlines = [GroupProfileInline]
 
     def get_description(self, obj):
-        if hasattr(obj, "profile"):
-            return obj.profile.description
-        return ""
+        return getattr(obj.profile, "description", "")
     get_description.short_description = "Description"
 
 
-# Replace default Group admin
 admin.site.unregister(Group)
 admin.site.register(Group, CustomGroupAdmin)
